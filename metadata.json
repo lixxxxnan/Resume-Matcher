@@ -1,0 +1,5 @@
+{
+  "name": "AI Resume Matcher",
+  "description": "An intelligent tool that analyzes your resume against a job description, providing a match score and actionable optimization advice using Gemini AI.",
+  "requestFramePermissions": []
+}
