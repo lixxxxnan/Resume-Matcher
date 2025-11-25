@@ -35,7 +35,7 @@ import { CommonModule } from '@angular/common';
       <!-- Text -->
       <div class="absolute flex flex-col items-center">
         <span class="text-4xl font-bold text-slate-800">{{ score() }}</span>
-        <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Match</span>
+        <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">匹配度</span>
       </div>
     </div>
   `,

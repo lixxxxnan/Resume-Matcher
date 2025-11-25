@@ -1,5 +1,5 @@
 {
-  "name": "AI Resume Matcher",
-  "description": "An intelligent tool that analyzes your resume against a job description, providing a match score and actionable optimization advice using Gemini AI.",
+  "name": "AI 简历智能匹配助手",
+  "description": "智能分析您的简历与职位描述(JD)的匹配度，并利用 Gemini AI 提供针对性的中文优化建议。",
   "requestFramePermissions": []
 }

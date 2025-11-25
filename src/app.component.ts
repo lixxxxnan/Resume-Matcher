@@ -32,7 +32,7 @@ export class AppComponent {
     this.result.set(null);
     
     if (!this.isValidInput()) {
-      this.error.set("Please provide both a Resume and Job Description (at least 50 characters each).");
+      this.error.set("请提供简历和职位描述（JD），每项内容至少 50 个字符。");
       return;
     }
 
@@ -46,7 +46,7 @@ export class AppComponent {
       this.result.set(analysis);
     } catch (err: unknown) {
       console.error(err);
-      this.error.set("An error occurred while analyzing. Please check your inputs and try again.");
+      this.error.set("分析过程中发生错误，请检查输入后重试。");
     } finally {
       this.isAnalyzing.set(false);
     }

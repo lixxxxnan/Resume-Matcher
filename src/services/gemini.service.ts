@@ -27,17 +27,18 @@ export class GeminiService {
 
   async analyzeResume(resumeText: string, jdText: string): Promise<AnalysisResult> {
     const prompt = `
-      You are an expert HR and Resume Screener.
+      你是一位拥有 10 年经验的资深 HR 和技术招聘专家。
       
-      Task: Analyze the following Resume against the Job Description (JD).
+      任务：请深度分析以下【简历内容】与【职位描述 (JD)】的匹配程度。
       
-      Resume Content:
+      简历内容：
       ${resumeText}
       
-      Job Description Content:
+      职位描述 (JD)：
       ${jdText}
       
-      Provide a strict JSON response assessing the fit.
+      请提供一个严格的 JSON 格式回复。
+      **重要**：所有返回的文本字段（summary, strengths, recommendations 等）必须使用**中文**撰写。
     `;
 
     const response = await this.ai.models.generateContent({
@@ -50,33 +51,33 @@ export class GeminiService {
           properties: {
             score: {
               type: Type.NUMBER,
-              description: "A matching score from 0 to 100."
+              description: "匹配度评分 (0-100)。"
             },
             summary: {
               type: Type.STRING,
-              description: "A concise executive summary of the match."
+              description: "关于匹配情况的简要中文综述。"
             },
             strengths: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "List of matching skills and experiences found in the resume."
+              description: "简历中与 JD 高度匹配的技能或经验亮点 (中文)。"
             },
             missingSkills: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "Critical skills or keywords from the JD missing in the resume."
+              description: "JD 中要求但简历中缺失的关键技能或关键词 (中文)。"
             },
             recommendations: {
               type: Type.ARRAY,
               items: {
                 type: Type.OBJECT,
                 properties: {
-                  category: { type: Type.STRING, description: "E.g., Formatting, Skills, Experience, Keywords" },
-                  suggestion: { type: Type.STRING, description: "Specific advice on what to improve." },
-                  example: { type: Type.STRING, description: "A concrete example of how to write it better." }
+                  category: { type: Type.STRING, description: "类别，例如：格式、技能、经验、关键词" },
+                  suggestion: { type: Type.STRING, description: "具体的改进建议 (中文)。" },
+                  example: { type: Type.STRING, description: "具体的修改示例 (中文)。" }
                 }
               },
-              description: "Actionable advice to improve the resume for this specific JD."
+              description: "针对此职位提升简历匹配度的具体建议。"
             }
           },
           required: ["score", "summary", "strengths", "missingSkills", "recommendations"]
@@ -86,14 +87,14 @@ export class GeminiService {
 
     const jsonText = response.text;
     if (!jsonText) {
-      throw new Error("No response from AI");
+      throw new Error("AI 未返回数据");
     }
 
     try {
       return JSON.parse(jsonText) as AnalysisResult;
     } catch (e) {
-      console.error("Failed to parse AI response", e);
-      throw new Error("Failed to parse analysis results.");
+      console.error("解析 AI 响应失败", e);
+      throw new Error("无法解析分析结果。");
     }
   }
 }
